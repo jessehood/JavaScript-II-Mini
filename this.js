@@ -9,18 +9,66 @@
 * write out a code example of each explanation above
 */
 
-// Principle 1
+// Principle 1: Window Binding - window/global this points to that object
 
-// code example for Window Binding
+function sayName(name) {
+  console.log(`hello my name is ${name}`);
+  console.log(this);
+}
 
-// Principle 2
+sayName('Ryan');
 
-// code example for Implicit Binding
+// Principle 2: Implicit Binding - object before the dot becomes this
 
-// Principle 3
+const myObj = {
+  greeting: 'hello',
+  sayHello: function(name) {
+    console.log(`${this.greeting} ${name}`);
+    console.log(this);
+  }
+}
 
-// code example for New Binding
+myObj.sayHello('Ryan');
 
-// Principle 4
+const sayNameFunc = (obj) => {
+  obj.sayName = function () {
+    console.log(`Hello my name is ${this.name}`);
+    console.log(this);
+  }
+};
 
-// code example for Explicit Binding
+const me = {name: 'Ryan'};
+const you = {name: 'Freddy' };
+
+sayNameFunc(me);
+console.log(me);
+sayNameFunc(you);
+console.log(you);
+
+me.sayName();
+you.sayName();
+
+// Principle 3: New Binding - the object where the new keyword called.
+
+function CordialPerson(greeter) {
+  this.greeting = 'hello';
+  this.greeter = 'greeter';
+  this.speak = function() {
+    console.log(this.greeting + this.greeter);
+    console.log(this);
+  }
+}
+
+const jerry = new CordialPerson('Newman');
+const newman = new CordialPerson('Jerry');
+
+jerry.speak();
+newman.speak();
+
+console.log(jerry);
+console.log(newman);
+
+// Principle 4: Explicit Binding - Whenever javascript's call or apply method is used, this is explicitly
+
+jerry.speak.call(newman);
+newman.speak.apply(jerry);
